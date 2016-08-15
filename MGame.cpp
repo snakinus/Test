@@ -40,7 +40,7 @@ void MGame::init() {
 */
     gameTexture = std::shared_ptr<Texture>(new Texture(Image::fromAsset("flappy bird textures.png")));
 
-    pipe = new Pipe(1000, 0, 55, 225, 2);
+    pipe = new Pipe(1000, 0, 50, 2);
     v.push_back(*pipe);
     bird = new Bird();
     bird->resetPosition();
@@ -77,8 +77,8 @@ void MGame::draw(xge::GameTime const& time) {
             v.pop_back();
         }
         while(v.size()<7) {
-            float py = (rand()%225)+100;
-          pipe = new Pipe(farthest+200, 0, 55, py, 2);
+            float extent = (rand()%225);
+             pipe = new Pipe(farthest+200, 0, extent, 2);
             v.push_back(*pipe);
             farthest += 200;
         }

@@ -6,7 +6,7 @@
 class Bird {
 public:
     float x, y;
-    const float width = 55.f, height = 40.f;
+    const float width = 45.f, height = 32.f;
     bool killed = false;
     float rotation = 0;
 
@@ -15,7 +15,7 @@ public:
     glm::vec2 velocity;
 
     const float gravity = 18.f;
-    const float flyVelocity = 600.f;
+    const float flyVelocity = 510.f;
 
     virtual void draw(xge::GameTime const&);
     virtual void update(xge::GameTime const&);

@@ -5,9 +5,9 @@
 class Pipe {
 public:
     float x, y;
-    float width, height;
-    float speed;
-    Pipe(float x, float y, float width, float height, float speed);
+    float width = 55, height = 225;
+    float speed, extent;
+    Pipe(float x, float y, float extent, float speed);
     virtual void draw(xge::GameTime const&);
     virtual void update(xge::GameTime const&);
 };
