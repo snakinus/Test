@@ -10,5 +10,5 @@ find_package(xge REQUIRED)
 
 file(GLOB_RECURSE HEADERS MGame.h)
 file(GLOB_RECURSE SOURCES main.cpp MGame.cpp)
-add_executable(classy ${HEADERS} ${SOURCES})
+add_executable(classy ${HEADERS} ${SOURCES} Bird.cpp Bird.h Pipe.cpp Pipe.h)
 target_link_libraries(classy ${XGE_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})

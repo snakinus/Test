@@ -15,6 +15,7 @@ int main() {
     Resources::userData = new FileResources("data/");
     LinuxPlatform platform;
     MGame game;
+    MGame::instance = &game;
     platform.startGame(game);
     return 0;
 }
