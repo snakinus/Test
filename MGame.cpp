@@ -3,11 +3,13 @@
 #include <xge/render/MeshBuilder.h>
 #include <xge/render/Texture.h>
 #include <xge/util/Image.h>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace xge;
+using namespace std;
 
 MGame* MGame::instance = nullptr;
 
@@ -38,8 +40,8 @@ void MGame::init() {
 */
     gameTexture = std::shared_ptr<Texture>(new Texture(Image::fromAsset("flappy bird textures.png")));
 
-    pipe = new Pipe(0, 0, 350, 210);
-
+    pipe = new Pipe(1000, 0, 55, 225, 2);
+    v.push_back(*pipe);
     bird = new Bird();
     bird->resetPosition();
 }
@@ -47,7 +49,7 @@ void MGame::init() {
 void MGame::drawBackground() {
     MeshBuilder builder(config);
     builder.setPrimaryTexture(gameTexture);
-    builder.rect({0.f, 0.f}, {getWidth(), getHeight()}, {0.f, 0.f}, {0.30f, 1.f}, {});
+    builder.rect({0.f, 0.f}, {getWidth(), getHeight()}, {0.f, 0.f}, {0.3f, 1.f}, {});
     builder.build(true)->draw();
 }
 
@@ -66,7 +68,24 @@ void MGame::draw(xge::GameTime const& time) {
 
     drawBackground();
 
-    pipe->draw(time);
+
+    float farthest = 1000;//v[v.size()-1].x;
+    for(int i = 0; i < v.size(); i++) {
+        (&v[i])->draw(time);
+        if(v[i].x<-200) {
+            swap(v[i], v[v.size()-1]);
+            v.pop_back();
+        }
+        while(v.size()<7) {
+            float py = (rand()%225)+100;
+          pipe = new Pipe(farthest+200, 0, 55, py, 2);
+            v.push_back(*pipe);
+            farthest += 200;
+        }
+        // pipe->draw(time);
+        //wpipe = new Pipe()
+       // if(v.size()<5) v.push_back()
+    }
     bird->draw(time);
 
 }

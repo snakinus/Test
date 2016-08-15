@@ -4,6 +4,7 @@
 #include <xge/render/MeshBuilderConfig.h>
 #include "Bird.h"
 #include "Pipe.h"
+#include <vector>
 
 class MGame : public xge::Game {
 private:
@@ -12,6 +13,8 @@ public:
 
     Bird* bird;
     Pipe* pipe;
+
+    std::vector<Pipe> v;
 
     std::shared_ptr<xge::Texture> gameTexture;
 
