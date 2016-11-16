@@ -7,6 +7,7 @@ class Bird {
 public:
     float x, y;
     const float width = 45.f, height = 32.f;
+    float  radius = 5.f;
     bool killed = false;
     float rotation = 0;
 

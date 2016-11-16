@@ -8,17 +8,18 @@
 
 class MGame : public xge::Game {
 private:
-    std::shared_ptr<xge::ShaderProgram> shader/*, shaderRepeat*/;
+    std::shared_ptr<xge::ShaderProgram> shader, shaderRepeat;
 public:
 
-    Bird* bird;
+    static Bird* bird;
     Pipe* pipe;
+    int wynik = 0;
 
     std::vector<Pipe> v;
 
     std::shared_ptr<xge::Texture> gameTexture;
 
-    xge::MeshBuilderConfig config/*, configRepeat*/;
+    xge::MeshBuilderConfig config, configRepeat;
     void drawBackground();
 
     virtual void init();

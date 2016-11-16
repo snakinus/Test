@@ -5,6 +5,7 @@
 
 using namespace xge;
 
+
 float dis(glm::vec2 a, glm::vec2 b) {
     return (float) sqrt((a.x - b.x)*(a.x - b.x)+(a.y - b.y)*(a.y - b.y));
 }
@@ -21,6 +22,7 @@ glm::vec2 rotatePoint(glm::vec2 p1, glm::vec2& p2, float angle) {
     p2 = p1 + pnew;
     return p2;
 }
+
 
 void Bird::draw(xge::GameTime const& time) {
     update(time);
@@ -47,13 +49,14 @@ void Bird::draw(xge::GameTime const& time) {
 }
 
 void Bird::update(xge::GameTime const& time) {
-    if (MGame::instance->getKeyboard().isPressed('W')) {
+
+    if (!killed and MGame::instance->getKeyboard().isPressed('W')) {
         if (canFly)
             fly();
         canFly = false;
     }
     else
-        canFly = true;
+         canFly = true;
     velocity -= gravity;
     y += float(time.getDelta()) * velocity.y;
     rotation = velocity.y / flyVelocity;

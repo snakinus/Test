@@ -12,6 +12,7 @@ using namespace xge;
 using namespace std;
 
 MGame* MGame::instance = nullptr;
+Bird* MGame::bird = nullptr;
 
 void MGame::init() {
     glEnable(GL_CULL_FACE);
@@ -22,22 +23,22 @@ void MGame::init() {
     shader->attach(Shader::createFromAssets(ShaderType::Vertex, "shaders/shader.vertex"));
     shader->attach(Shader::createFromAssets(ShaderType::Fragment, "shaders/shader.fragment"));
     shader->link();
-/*
+
     shaderRepeat = std::shared_ptr<ShaderProgram>(new ShaderProgram());
-    shaderRepeat->attach(Shader::createFromAssets(ShaderType::Vertex, "shaders/shader.vertex"));
-    shaderRepeat->attach(Shader::createFromAssets(ShaderType::Fragment, "shaders/shader.fragment"));
+    shaderRepeat->attach(Shader::createFromAssets(ShaderType::Vertex, "shaders/shaderRepeat.vertex"));
+    shaderRepeat->attach(Shader::createFromAssets(ShaderType::Fragment, "shaders/shaderRepeat.fragment"));
     shaderRepeat->link();
-*/
+
     config = MeshBuilderConfig(shader);
     config.setPrimaryTextureUniform("uSampler");
     config.addAttribute("aPosition", xge::ShaderValueType::Vec2, MeshAttributeUsage::POSITION);
     config.addAttribute("aTextureCoord", xge::ShaderValueType::Vec2, MeshAttributeUsage::TEXTURE_UV);
-/*
+
     configRepeat = MeshBuilderConfig(shaderRepeat);
     configRepeat.setPrimaryTextureUniform("uSampler");
     configRepeat.addAttribute("aPosition", xge::ShaderValueType::Vec2, MeshAttributeUsage::POSITION);
     configRepeat.addAttribute("aTextureCoord", xge::ShaderValueType::Vec2, MeshAttributeUsage::TEXTURE_UV);
-*/
+
     gameTexture = std::shared_ptr<Texture>(new Texture(Image::fromAsset("flappy bird textures.png")));
 
     pipe = new Pipe(1000, 0, 50, 2);
@@ -47,7 +48,7 @@ void MGame::init() {
 }
 
 void MGame::drawBackground() {
-    MeshBuilder builder(config);
+    MeshBuilder builder(configRepeat);
     builder.setPrimaryTexture(gameTexture);
     builder.rect({0.f, 0.f}, {getWidth(), getHeight()}, {0.f, 0.f}, {0.3f, 1.f}, {});
     builder.build(true)->draw();
@@ -63,13 +64,15 @@ void MGame::draw(xge::GameTime const& time) {
     shader->use();
     shader->getUniform("uProjectionMatrix", ShaderValueType::Matrix4).set((ShaderValue *) glm::value_ptr(proj));
 
-//    shaderRepeat->use();
-//    shaderRepeat->getUniform("uProjectionMatrix", ShaderValueType::Matrix4).set((ShaderValue *) glm::value_ptr(proj));
+    float val = 10.5f;
+   shaderRepeat->use();
+    shaderRepeat->getUniform("uProjectionMatrix", ShaderValueType::Matrix4).set((ShaderValue *) glm::value_ptr(proj));
+  shaderRepeat->getUniform("bla", ShaderValueType::Float).set((ShaderValue *) &val);
 
     drawBackground();
 
 
-    float farthest = 1000;//v[v.size()-1].x;
+    float farthest = 1000;
     for(int i = 0; i < v.size(); i++) {
         (&v[i])->draw(time);
         if(v[i].x<-200) {
@@ -78,13 +81,10 @@ void MGame::draw(xge::GameTime const& time) {
         }
         while(v.size()<7) {
             float extent = (rand()%225);
-             pipe = new Pipe(farthest+200, 0, extent, 2);
+            pipe = new Pipe(farthest+200, 0, extent, 2);
             v.push_back(*pipe);
             farthest += 200;
         }
-        // pipe->draw(time);
-        //wpipe = new Pipe()
-       // if(v.size()<5) v.push_back()
     }
     bird->draw(time);
 

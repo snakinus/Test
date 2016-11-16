@@ -1,7 +1,10 @@
 uniform sampler2D uSampler;
+uniform float WspanialyUniformMarka;
 varying vec2 vTextureCoord;
 varying vec2 vSize;
 
 void main() {
-    gl_FragColor = texture2D(uSampler, vTextureCoord);
+	WspanialyUniformMarka = 0.035;
+      gl_FragColor = texture2D(uSampler, vec2(mod(vTextureCoord.x, WspanialyUniformMarka), vTextureCoord.y));
+
 }
